@@ -8,6 +8,11 @@ import { errorMiddleware } from "./middleware/error";
 import cookieParser = require("cookie-parser")
 import routerDoctor from "./routes/doctorRouter/doctorrouter";
 import opponRouter from "./routes/opponRouter/opponRouter";
+import routerDepart from "./routes/departmentRouter/departmentrouter";
+import routerOppont from "./routes/opponRouter/opponRouter";
+import routernews from "./routes/newRouter/routernews";
+import routerstaff from "./routes/staffRouter/staffrouter";
+import routerPatient from "./routes/patientRouter/patienRouter";
 
 const app:Express=expres();
 
@@ -26,7 +31,13 @@ export const prisma=new PrismaClient({
 app.use('/api',rootRoute);
 app.use('/api',routerDoctor);
 app.use('/api',opponRouter);
-
+app.use("/api",routerDepart)
+app.use('/api',routerPatient)
+app.use("/api",routerOppont)
+app.use('/api',rootRoute);
+app.use('/api',routerDoctor);
+app.use('/api',routernews)
+app.use("/api",routerstaff)
 app.use(errorMiddleware);
 
 app.listen(PORT,()=>{
