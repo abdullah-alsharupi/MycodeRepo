@@ -15,7 +15,7 @@ try {
         data:{
             date:new Date(),
             patient:{
-                create:{patName:name,phone:phone,address}
+                create:{patName:name,phone:phone,address,gender:req.body.gender}
             },
 
             doctor:{connect:{id:doctorID?.id}}
