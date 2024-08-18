@@ -25,7 +25,7 @@ credentials:true,
 
 }));
 export const prisma=new PrismaClient({
-    log:["warn"],
+    log:["error"],
 });
 
 app.use('/api',rootRoute);
