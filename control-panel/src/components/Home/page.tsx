@@ -2,10 +2,14 @@
 import React from "react";
 import Doctor from "../doctor/page";
 import BigChartBox from "../chart/page";
-import { useGetDoctor } from "../queries/page";
+import {  useGetAllPatientsWithOppon} from "../././../queries/oppo/useGetPatientWithOppo";
+import { DoctorType } from "../types/types";
+import { useAddDoctor } from "@/queries/doctors/useAddDoctor";
 
-const Home = () => {
-  const { isLoading, error, data } = useGetDoctor();
+
+export  const Home = () => {
+  const { isLoading, error, data } = useGetAllPatientsWithOppon();
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -25,12 +29,11 @@ const Home = () => {
 
       <div className=" rounded-[10px]  border-[1px] border-solid col-span-3  overflow-y-scroll p-[40px]  shadow-lg mt-0 bg-white ">
         {data?.map((data) => (
-          <div key={data.id}>
-            <h1>{data.doctorName}</h1>
-            <div key={data.department.id}>
-              <h2>{data.department.depName}</h2>
-            </div>
-            <h3>{data.phone}</h3>
+          <div key={data.patID}>
+           
+           <h1>{data.patient.patName}</h1>
+            <h3>{data.patient.address}</h3>
+            <h1>{data.patient.phone}</h1>
           </div>
         ))}
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore,
@@ -61,4 +64,3 @@ const Home = () => {
   );
 };
 
-export default Home;

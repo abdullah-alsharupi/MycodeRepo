@@ -35,7 +35,7 @@ export const addDoctor = async (req: Request, res: Response, next: NextFunction)
 
         res.json(shift);
     } catch (error:any) {
-        next(new UnprocessableEntity(error?.cause?.issues,'Unprocessable Entity',ErrorCode.UPPROCESSABLE_ENTITY))
+        next(error)
     }
 };
 

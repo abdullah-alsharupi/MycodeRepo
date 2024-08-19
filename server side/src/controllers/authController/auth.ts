@@ -5,14 +5,15 @@ import  jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../../secret";
 import { ErrorCode } from "../../exceptions/root";
 import { BadRequestsException } from "../../exceptions/bad-request";
-import { signupSchema } from "../../../prisma/valdateInput";
+import { userZodSchema } from "../../../prisma/valdateInput";
 import { NotFoundException } from "../../exceptions/not-found";
 import { UnprocessableEntity } from "../../exceptions/valdations";
+import { error } from "console";
 
-export const signUp=async(req:Request,res:Response,next:NextFunction)=>{
+export const addUser=async(req:Request,res:Response,next:NextFunction)=>{
 
   try {
-    signupSchema.parse(req.body)
+    userZodSchema.safeParse(req.body)
     const {email,userName,password}=req.body;
   let user=await prisma.users.findFirst({
     where:{email}
@@ -36,6 +37,23 @@ export const signUp=async(req:Request,res:Response,next:NextFunction)=>{
     next(new UnprocessableEntity(err?.cause?.issues,"Unprocessable Entity",ErrorCode.UPPROCESSABLE_ENTITY));
   }
       }
+ export const getUser=async(req:Request,res:Response,next:NextFunction)=>{
+try {
+  const users=await prisma.users.findMany({
+    where:{isDeleted:false},
+    include:{
+      news:true,sessions:true
+    }
+  })
+ if(!users){
+  throw new Error("not get users");
+ }
+ res.json(users)
+} catch (error) {
+  next(error)
+}
+
+ }
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -50,8 +68,7 @@ export const login = async (req: Request, res: Response) => {
     throw new BadRequestsException('Incorrect password', ErrorCode.INCORRECT_PASSWORD);
   }
 
-  // Create a new session for the user
-  // const session = await createSession(user.id);
+
 
   const token = jwt.sign(
     {

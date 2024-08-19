@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={false}>
   <body className={inter.className}>
         <ReactQueryProvider>
-          <main>{children}</main>
+          {children}
         </ReactQueryProvider>
       </body>    </html>
   );

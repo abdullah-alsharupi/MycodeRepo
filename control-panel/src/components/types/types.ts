@@ -37,7 +37,7 @@ export interface User {
     updatedAt: Date;
     isDeleted: boolean;
     staffs: Staff[];
-    doctors: Doctor[];
+    doctors: DoctorType[];
     news: News[];
   }
   
@@ -52,12 +52,12 @@ export interface User {
     isDeleted: boolean;
   }
   
-  export interface Doctor {
+  export interface DoctorType {
     id: string;
     doctorName: string;
     phone: string | null;
     specialist: string;
-    department: Department;
+    department: Department[];
     depID: string;
     createdAt: Date;
     updatedAt: Date;
@@ -85,7 +85,7 @@ export interface User {
   }
   
   export interface Oppontement {
-    doctor: Doctor;
+    doctor: DoctorType;
     docID: string;
     patient: Patient;
     patID: string;
@@ -100,11 +100,11 @@ export interface User {
     day: Day;
     startTime: string;
     endTime: string;
-    doctor: Doctor | null;
+    doctor: DoctorType | null;
     docID: string;
   }
   
-  enum Day {
+export  enum Day {
     SUNDAY,
     MONDAY,
     TUESDAY,
@@ -113,3 +113,4 @@ export interface User {
     FRIDAY,
     SATURDAY
   }
+  
