@@ -113,4 +113,7 @@ export  enum Day {
     FRIDAY,
     SATURDAY
   }
-  
+  export interface updatedepar{
+    
+    depName: string;
+  }

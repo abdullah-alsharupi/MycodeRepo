@@ -5,9 +5,12 @@ import BigChartBox from "../chart/page";
 import {  useGetAllPatientsWithOppon} from "../././../queries/oppo/useGetPatientWithOppo";
 import { DoctorType } from "../types/types";
 import { useAddDoctor } from "@/queries/doctors/useAddDoctor";
+import { updateDepartment } from "@/queries/department/useUpdateDepart";
+import { deletDepartment } from "@/queries/department/useDeleteDepart";
 
 
 export  const Home = () => {
+  deletDepartment("clzwu5izp0000p50aykuq3dpl")
   const { isLoading, error, data } = useGetAllPatientsWithOppon();
 
 
