@@ -3,7 +3,6 @@ import { News } from "@/components/types/types";
 import { useQuery } from "@tanstack/react-query";
 
 
-
 export const useGetNews =() => {
   return useQuery({
     queryKey: ["news"],

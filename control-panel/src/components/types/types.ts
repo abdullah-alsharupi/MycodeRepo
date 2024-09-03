@@ -1,82 +1,82 @@
 export interface User {
-    id: string;
-    userName: string;
-    email: string;
-    password: string;
-    sessions: Session[];
-    createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
-    news: News[];
+    id: string| null;
+    userName: string| null;
+    email: string| null;
+    password: string| null;
+    sessions: Session[]| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
+    news: News[]| null;
   }
   
   export interface News {
-    id: string;
-    headline: string;
-    title: string;
-    img: string;
-    user: User;
-    userId: string;
-    department: Department;
-    depID: string;
+    id: string| null;
+    headline: string| null;
+    title: string| null;
+    img: string| null;
+    user: User| null;
+    userId: string| null;
+    department: Department| null;
+    depID: string| null;
   }
   
   export interface Session {
-    id: string;
-    expirationDate: Date;
-    createdAt: Date;
-    updatedAt: Date;
-    user: User;
-    userId: string;
+    id: string| null;
+    expirationDate: Date| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    user: User| null;
+    userId: string| null;
   }
   
   export interface Department {
-    id: string;
-    depName: string;
-    createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
-    staffs: Staff[];
-    doctors: DoctorType[];
-    news: News[];
+    id: string| null;
+    depName: string| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
+    staffs: Staff[]| null;
+    doctors: DoctorType[]| null;
+    news: News[]| null;
   }
   
   export  interface Staff {
-    id: string;
-    staffName: string;
-    phone: string | null;
-    department: Department;
-    depID: string;
-    createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
+    id: string| null;
+    staffName: string| null;
+    phone: string | null| null;
+    department: Department| null;
+    depID: string| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
   }
   
   export interface DoctorType {
-    id: string;
-    doctorName: string;
-    phone: string | null;
-    specialist: string;
-    department: Department[];
-    depID: string;
-    createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
-    patient: Oppontement[];
-    weekwork: Shift[];
+    id: string| null;
+    doctorName: string| null;
+    phone: string | null| null;
+    specialist: string| null;
+    department: Department[]| null;
+    depID: string| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
+    patient: Oppontement[]| null;
+    weekwork: Shift[]| null;
   }
   
   export interface Patient {
-    id: string;
-    patName: string;
-    address: string | null;
-    gender: Gender | null;
-    doctorBack: Date | null;
-    phone: string;
-    createdAt: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
-    doctor: Oppontement[];
+    id: string| null;
+    patName: string| null;
+    address: string | null| null;
+    gender: Gender | null| null;
+    doctorBack: Date | null| null;
+    phone: string| null;
+    createdAt: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
+    doctor: Oppontement[]| null;
   }
   
   enum Gender {
@@ -85,23 +85,23 @@ export interface User {
   }
   
   export interface Oppontement {
-    doctor: DoctorType;
-    docID: string;
-    patient: Patient;
-    patID: string;
-    createdAt: Date;
-    date: Date;
-    updatedAt: Date;
-    isDeleted: boolean;
+    doctor: DoctorType| null;
+    docID: string| null;
+    patient: Patient| null;
+    patID: string| null;
+    createdAt: Date| null;
+    date: Date| null;
+    updatedAt: Date| null;
+    isDeleted: boolean| null;
   }
   
   export interface Shift {
-    id: string;
-    day: Day;
-    startTime: string;
-    endTime: string;
-    doctor: DoctorType | null;
-    docID: string;
+    id: string| null;
+    day: Day| null;
+    startTime: string| null;
+    endTime: string| null;
+    doctor: DoctorType | null| null;
+    docID: string| null;
   }
   
 export  enum Day {
@@ -115,5 +115,5 @@ export  enum Day {
   }
   export interface updatedepar{
     
-    depName: string;
+    depName: string| null;
   }
