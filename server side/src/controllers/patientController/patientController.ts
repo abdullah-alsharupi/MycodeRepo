@@ -4,21 +4,21 @@ import { date } from "zod";
 import { idText } from "typescript";
 
 export const addPatient=async(req:Request,res:Response,next:NextFunction)=>{
-const {doctorName,name,phone,address}=req.body;
+const {doctorID,patName,phone,address,gender}=req.body;
 
 try {
-    const isExist=await prisma.oppontement.findFirst({where:{patient:{patName:name}},select:{date:true,}})
     
-    const doctorID=await prisma.doctor.findFirst({where:{doctorName:doctorName},select:{id:true}});
+    
+ 
 
     const patient=await prisma.oppontement.create({
         data:{
             date:new Date(),
             patient:{
-                create:{patName:name,phone:phone,address,gender:req.body.gender}
+                create:{patName:patName,phone:phone,address,gender:gender}
             },
 
-            doctor:{connect:{id:doctorID?.id}}
+            doctor:{connect:{id:doctorID}}
         },include:{patient:true,doctor:true}
 
     });
@@ -60,7 +60,8 @@ export const updatePatient=async(req:Request,res:Response,next:NextFunction)=>{
         try {
             
         
-            const patient=await prisma.patient.delete({where:{id:pateintId}
+            const patient=await prisma.patient.update({where:{id:pateintId},
+                data:{isDeleted:true}
               
         
             });

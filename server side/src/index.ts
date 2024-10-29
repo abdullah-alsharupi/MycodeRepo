@@ -10,9 +10,11 @@ import routerDoctor from "./routes/doctorRouter/doctorrouter";
 import opponRouter from "./routes/opponRouter/opponRouter";
 import routerDepart from "./routes/departmentRouter/departmentrouter";
 import routerOppont from "./routes/opponRouter/opponRouter";
-import routernews from "./routes/newRouter/routernews";
 import routerstaff from "./routes/staffRouter/staffrouter";
 import routerPatient from "./routes/patientRouter/patienRouter";
+import authRoutes from "./routes/routerAuth/auth";
+import routernews from "./routes/newRouter/routernews";
+import authMiddleware from "./middleware/auth";
 
 const app:Express=expres();
 
@@ -20,14 +22,17 @@ app.use(expres.json());
 app.use(cookieParser());
 app.use(cors({
 origin:["http://localhost:3000"],
-methods:["POST","GET"],
+methods:["POST","GET","PUT","DELETE"],
 credentials:true,
 
 }));
 export const prisma=new PrismaClient({
-    log:["warn"],
+    log:["error"],
 });
 
+app.use("/images",expres.static("images"))
+
+app.use('/api',authRoutes)
 app.use('/api',rootRoute);
 app.use('/api',routerDoctor);
 app.use('/api',opponRouter);

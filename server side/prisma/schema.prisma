@@ -12,23 +12,27 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-model Users{
-    id  String   @id @default(cuid())
-  userName String
-  email  String @unique
-  password String
+model Users {
+  id          String       @id @default(cuid())
+  userName    String
+  email       String       @unique
+  password    String
   sessions    Session[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  news News[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isDeleted   Boolean      @default(false)
+  news        News[]
+  role    String
+  token String?
 }
+
+
+
 model News{
 id String @id @default(cuid())
 headline String 
-title String
-img String
+title String @db.Text
+img String?
 user   Users  @relation(fields:[userId],references:[id],onDelete: Cascade, onUpdate: Cascade)
 userId String
 department Department @relation(fields:[depID],references:[id],onDelete: Cascade, onUpdate: Cascade)
@@ -43,10 +47,11 @@ model Session {
   updatedAt DateTime @updatedAt
   user   Users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
+
 }
 model Department{
   id    String   @id @default(cuid())
-  depName String
+  depName String @unique
   createdAt DateTime    @default(now())
   updatedAt DateTime  @updatedAt
   isDeleted Boolean   @default(false)
@@ -66,7 +71,7 @@ model Department{
   }
 model Doctor{
   id    String   @id @default(cuid())
-  doctorName String
+  doctorName String @unique
   phone String?
   specialist String
   department Department @relation(fields:[depID],references:[id],onDelete: Cascade, onUpdate: Cascade)
@@ -77,9 +82,10 @@ model Doctor{
   isDeleted Boolean   @default(false)
   patient Oppontement[]
  weekwork Shift[]
+ img String?
+ information String? @db.Text
 
 }
-
 model Patient{
   id    String   @id @default(cuid())
  patName String
@@ -111,19 +117,19 @@ model Oppontement{
 
 model Shift{
   id   String     @id @default(cuid())
-  day Day
+  day String
    startTime String
   endTime   String
   doctor Doctor? @relation(fields:[docID],references:[id],onDelete:Cascade,onUpdate:Cascade)
   docID String
 }
 
-enum Day {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-}
+//string Day {
+//  الأحد
+//  الإثنين
+//  الثلاثاء
+//  الأربعاء
+//  الخميس
+//  الجمعة
+//  السبت
+//}

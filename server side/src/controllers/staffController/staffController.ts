@@ -1,10 +1,10 @@
 import { Request,Response,NextFunction } from "express";
 import { prisma } from "../..";
 export const addStaff=async(req:Request,res:Response,next:NextFunction)=>{
-    const {name,phone,}=req.body
+    const {name,phone,id_department}=req.body
     try {
         const staff=await prisma.staff.create({
-            data:{staffName:name,phone:phone,department:{connect:{id:req.params.id_department}}},include:{department:{select:{depName:true}}}
+            data:{staffName:name,phone:phone,department:{connect:{id:id_department}}},include:{department:{select:{depName:true}}}
         })
         res.json(staff)
     } catch (error) {
@@ -12,11 +12,11 @@ export const addStaff=async(req:Request,res:Response,next:NextFunction)=>{
     }
 }
 export const updateSttff=async(req:Request,res:Response,next:NextFunction)=>{
-    const {name,phone,}=req.body
-    const {id,id_department}=req.params
+    const {name,phone,id_department}=req.body
+    const {id}=req.params
     try {
         const staff=await prisma.staff.update({where:{id:id},
-            data:{staffName:name,phone:phone,department:{connect:{id:req.params.id_department}}},include:{department:{select:{depName:true}}}
+            data:{staffName:name,phone:phone,department:{connect:{id:id_department}}},include:{department:{select:{depName:true}}}
         })
         res.json(staff)
     } catch (error) {
