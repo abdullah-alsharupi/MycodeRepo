@@ -16,7 +16,7 @@ export default function DepartmentHome() {
     <div className="text-black w-[100%] items-center justify-start">
       <div
         style={{ position: "sticky", zIndex: 1, top: 0 }}
-        className="rounded-xl mb-[10px] border-solid  bg-[#1a1463]"
+        className="rounded-xl mb-[10px] border-solid  bg-[#091E3A]"
       >
         <h1 className="text-white text-center justify-between rounded-sm flex  font-serif font-bold text-[20px] px-4 items-center">
           <h1 style={{paddingRight:!show?"":"110px"}} >{depName} </h1>

@@ -1,22 +1,24 @@
 import { Request ,Response,NextFunction } from "express";
 import { prisma } from "../..";
+import { date } from "zod";
+import { idText } from "typescript";
 
 export const addPatient=async(req:Request,res:Response,next:NextFunction)=>{
-const {doctorName,name,phone,address,gender}=req.body;
+const {doctorID,patName,phone,address,gender}=req.body;
 
 try {
-    // const isExist=await prisma.oppontement.findFirst({where:{patient:{patName:name}},select:{date:true,}})
     
-    const doctorID=await prisma.doctor.findFirst({where:{doctorName:doctorName},select:{id:true}});
+    
+ 
 
     const patient=await prisma.oppontement.create({
         data:{
             date:new Date(),
             patient:{
-                create:{patName:name,phone:phone,address:address,gender:gender}
+                create:{patName:patName,phone:phone,address,gender:gender}
             },
 
-            doctor:{connect:{id:doctorID?.id}}
+            doctor:{connect:{id:doctorID}}
         },include:{patient:true,doctor:true}
 
     });

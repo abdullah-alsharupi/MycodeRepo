@@ -3,39 +3,45 @@ import { useEffect, useState,createContext } from "react";
 
 import { useCookies } from "react-cookie";
 import Home from "../Dashboard/Home/page";
-import { decryptArray } from "../util/encrypt";
+import { decrypt } from "../util/encryptons";
 
 
-// export const hashPermision = (requiredAction: string) => {
-//   const PersmisionStorage = sessionStorage.getItem("permision");
-//   const permissions = PersmisionStorage ? JSON.parse(PersmisionStorage) : [];
-//   return permissions.includes(decrypt(permissions));
+export const hashPermision = (requiredAction: string) => {
+  const permissionStorage = sessionStorage.getItem("role");
+
+  if (permissionStorage) {
+    const decryptedPermission = decrypt(permissionStorage);
+    return requiredAction.includes(decryptedPermission);
+  }
+
+  return false;
+}
 
 
 export const PermissionContext = createContext<string[] | null>(null);
 
-export default function FunProvider ({
-  children,
-}: Readonly<{
+interface FunProviderProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function FunProvider({ children }: FunProviderProps):React.JSX.Element {
   const [data, setData] = useState<string[]>([]);
-  const [cookies, setCookie] = useCookies(['permision']);
+  const [cookies] = useCookies(['permision']);
 
-  useEffect(() => {
-    const hashString = cookies.permision;
+  // useEffect(() => {
+  //   const hashString = cookies.permision;
 
-    if (hashString !== null) {
-      const decryptedHash = decryptArray(hashString);
-      setData(decryptedHash);
-    } else {
-      console.log('Hash is null, cannot decrypt.');
-    }
-  }, []);
+  //   if (hashString) {
+  //     const decryptedHash = decryptArray(hashString);
+  //     setData(decryptedHash);
+  //   } else {
+  //     console.log('Hash is null, cannot decrypt.');
+  //   }
+  // }, [cookies]);
 
   return (
     <PermissionContext.Provider value={data}>
-    {children}
+      {children}
     </PermissionContext.Provider>
   );
-};
+}

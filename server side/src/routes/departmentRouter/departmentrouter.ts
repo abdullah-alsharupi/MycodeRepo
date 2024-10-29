@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { addDepartment, deleteAllDepartment, getDepartment, getNewsDepart, searchDepart, updateDepartment } from "../../controllers/departmentController/departmentcontroller";
+import { addDepartment, deleteDepartmentById, getDepartment, getDepartmentById, getNewsDepart, searchDepart, updateDepartment } from "../../controllers/departmentController/departmentcontroller";
 const routerDepart:Router=Router()
 
-routerDepart.post("/add_depart",addDepartment)
+routerDepart.post("/adddepartment",addDepartment)
 routerDepart.get("/getnews_depart",getNewsDepart)
-routerDepart.get("/get_depart",getDepartment)
-routerDepart.put("/update_depart/:id",updateDepartment)
-routerDepart.delete("/delete_depart/:id",deleteAllDepartment)
+routerDepart.get("/getDepartment",getDepartment)
+routerDepart.get("/getDepartmentById/:id",getDepartmentById)
+routerDepart.put("/updateDepartment/:id",updateDepartment)
+routerDepart.delete("/deleteDepartment/:id",deleteDepartmentById)
 routerDepart.get("/search_depart",searchDepart)
 export default routerDepart

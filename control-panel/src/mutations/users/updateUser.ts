@@ -1,10 +1,10 @@
 import { apifetch } from "@/api";
 import { UpdateUser, User } from "@/app/types/types";
 import axios from "axios";
-export const updateUser=async(data:UpdateUser)=>{
+export const updateUser=async(data:any,id:string)=>{
 
 try {
-    const response=await apifetch.put("/updateUser",data)
+    const response=await apifetch.put(`/updateUser/${id}`,data)
     if(response.status!==200){
 
         throw new Error("error update user"+response.statusText)

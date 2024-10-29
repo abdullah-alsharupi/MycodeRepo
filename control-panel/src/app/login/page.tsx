@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import { apifetch } from '@/api';
 import axios, { AxiosError } from 'axios';
-import { encrypt, encryptArray } from '../util/encrypt';
+import { encrypt } from '../util/encryptons';
 import ToastContainer from '../components/ui/toastCobtainer';
 import Button from '../components/ui/button';
 
@@ -31,9 +31,10 @@ const Login: React.FC = () => {
 
       if (response.status === 200) {
         setCookies('authToken', response.data.token, { path: '/', maxAge: 86400 });
+        setCookies('permision', encrypt(response.data.user.role), { path: '/', maxAge: 86400 });
         sessionStorage.setItem('session', response.data.session.id);
-        sessionStorage.setItem('role', response.data.user.roles);
-        sessionStorage.setItem('userName', encrypt(response.data.user.userName));
+        sessionStorage.setItem('role', encrypt(response.data.user.role));
+        sessionStorage.setItem('userName', encrypt(JSON.stringify(response.data.user.userName)));
         // const permissions = response.data.user.permissions.map((permission: { action: any; }) => permission.action);
         // setCookies('permision', JSON.stringify(encryptArray(permissions)));
         setSuccess("تم تسجيل الدخول بنجاح!");

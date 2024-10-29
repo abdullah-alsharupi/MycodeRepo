@@ -1,7 +1,7 @@
 import { apifetch } from "@/api";
-import { updatedepar } from "@/components/types/types";
+import { Department } from "@/app/types/types";
 
-export const updateDepartment=async(data:updatedepar,id:string)=>{
+export const updateDepartment=async(data:Department,id:string)=>{
 
     try {
         const response=await apifetch.put(`/update_depart/${id}`,data)

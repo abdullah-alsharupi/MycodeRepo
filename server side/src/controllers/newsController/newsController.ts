@@ -1,41 +1,55 @@
 import { Request,Response,NextFunction } from "express";
 import { prisma } from "../..";
+import upload from "../../middleware/multermiddleware";
 
-export const addNews=async(req:Request,res:Response,next:NextFunction)=>{
-const {headline,title,img,depName,userName}=req.body
-try {
-
-const user = await prisma.users.findFirst({
-    where: {userName},select:{id:true}
-  });
-const departmentId=await prisma.department.findFirst({where:{depName},select:{id:true}})
+export const addNews = async (req: Request, res: Response, next: NextFunction) => {
+  const { headline, title, depName, userName } = req.body;
   
+  try {
+    const user = await prisma.users.findFirst({
+      where: { userName },
+      select: { id: true }
+    });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-  const newNews = await prisma.news.create({
-    data: {
-      headline,
-      title,
-      
-      img,
-      user: {
-        connect: {
-          id: user?.id
+    const departmentId = await prisma.department.findFirst({
+      where: { depName },
+      select: { id: true }
+    });
+
+    if (!departmentId) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+
+    const newNews = await prisma.news.create({
+      data: {
+        headline,
+        title,
+        img: req.file?.filename,
+        user: {
+          connect: {
+            id: user.id
+          }
+        },
+        department: {
+          connect: {
+            id: departmentId.id
+          }
         }
       },
-      department: {
-        connect: {
-          id: departmentId?.id
-        }
-      }
-    },include:{user:true,department:true}
-  });
-  res.json(newNews)
-} catch (error) {
-    console.log(error)
-}
-}
+      include: { user: true, department: true }
+    });
+
+    res.status(201).json(newNews);
+  } catch (error) {
+    next(error);
+  }
+};
 export const updatenews=async(req:Request,res:Response,next:NextFunction)=>{
-  const {headline,title,img,depName,userName}=req.body
+  const {headline,title,depName,userName}=req.body
   try {
       
   const user = await prisma.users.findFirst({
@@ -51,7 +65,7 @@ export const updatenews=async(req:Request,res:Response,next:NextFunction)=>{
         headline,
         title,
         
-        img,
+        img:req.file?.filename,
         user: {
           connect: {
             id: user?.id
@@ -73,14 +87,24 @@ export const updatenews=async(req:Request,res:Response,next:NextFunction)=>{
     
     try {
       const news = await prisma.news.findMany({
-       include:{department:true}
+       include:{department:true,user:true}
       });
    res.json(news)
     } catch (error) {
         console.log(error)
     }
     }
-
+    export const getNewsById=async(req:Request,res:Response,next:NextFunction)=>{
+      try {
+        const news = await prisma.news.findUnique({
+          where:{id:req.params.id},
+         include:{department:true,user:true}
+        });
+     res.json(news);
+      } catch (error) {
+          console.log(error)
+      }
+      }
     export const deleteAllnews=async(req:Request,res:Response,next:NextFunction)=>{
     
       try {

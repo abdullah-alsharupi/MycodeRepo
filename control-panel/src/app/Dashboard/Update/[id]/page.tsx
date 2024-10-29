@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetDepartments } from "@/queries/department/useGetAllDepartment";
 import useGetDoctorById from "@/queries/doctors/useGetDoctorById";
-import { AddDoctor } from "@/mutations/doctors/useAddDoctor";
+import { AddDoctor } from "@/mutations/doctors/AddDoctor";
 export default function Update(Params: any) {
   let NameOfField = [
     "اسم الطبيب",

@@ -12,7 +12,7 @@ export const menu = [
       {
         id: 2,
         title: "المستخدمين",
-        url: "/Dashboard/user/userView",
+        url: "/Dashboard/user",
      
       },
       {
@@ -29,12 +29,18 @@ export const menu = [
       },
       {
         id: 5,
+        title: "الأقسام",
+        url: "/Dashboard/department",
+       
+      },
+      {
+        id: 6,
         title: "الأمراض",
         url: "/Dashboard/patients",
        
       },
       {
-        id: 6,
+        id: 7,
         title: "العاملين",
         url: "/Dashboard/",
         
@@ -43,13 +49,13 @@ export const menu = [
   
     
       {
-        id: 7,
+        id: 8,
         title: "التحليلات",
         url: "/",
         icon: "element.svg",
       },
       {
-        id: 8,
+        id: 9,
         title: "الإعدادات",
         url: "/",
         icon: "note.svg",

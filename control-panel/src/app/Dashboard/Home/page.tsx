@@ -20,7 +20,7 @@ export default function Home() {
      <Doctor />
       </div>
      <div  className="rounded-[10px]  border-[1px] border-solid col-span-3 h-[290px] border-gray-200 shadow-white scroll-auto mb-[20px]   overflow-y-auto  shadow-lg mt-0 bg-white " style={{scrollbarWidth:"none"}}>
-      <div style={{zIndex:1, top:0, position:'sticky'}} className="rounded-[10px] border-solid bg-[#1a1463] w-[100%]"><h1 className="text-3xl font-normal text-center text-white font-serif">حجوزات اليوم</h1></div>
+      <div style={{zIndex:1, top:0, position:'sticky'}} className="rounded-[10px] border-solid bg-[#091E3A] w-[100%]"><h1 className="text-3xl font-normal text-center text-white font-serif">حجوزات اليوم</h1></div>
    <AppointmentToday/>
         
       </div>

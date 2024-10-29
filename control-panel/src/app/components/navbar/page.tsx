@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import { decrypt } from "../../util/encrypt";
+import { decrypt } from "../../util/encryptons";
 import DangerDialog from "../ui/danger-dialog";
 import Button from "../ui/button";
 export default function NavBar() {
@@ -31,12 +31,12 @@ export default function NavBar() {
   };
   return (
     <div
-      className="flex justify-between bg-white shadow-md p-[20px]"
+      className="flex justify-between bg-white shadow-lg p-[20px]"
       style={{ position: "sticky", top: 0, zIndex: 1 }}
     >
       <div className="flex  items-center gap-10">
-        <img src="logo.svg" alt="log" width={25} height={5} />
-        <span>Dashboard</span>
+  
+        <span className="text-[#091E3A] text-xl font-bold font-serif">لوحة التحكم</span>
       </div>
       <div className="flex gap-5  ">
         <div className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export default function NavBar() {
           onConfirm={handleLogout}
           open={open}
           title="تسجيل الخروج"
-        ></DangerDialog>
+        />
       <Button label={`تسجيل الخروج`} onClick={Open} className={`hover:bg-red-700 py-[3px]`} />
         {/* <img
     src="/setting.svg"

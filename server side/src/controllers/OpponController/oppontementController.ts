@@ -8,7 +8,7 @@ export const get_Patients_Withِ_All_Oppontment = async (
 ) => {
   try {
     const getOppontement = await prisma.oppontement.findMany({
-      include: { doctor: true, patient: true },
+      select: { doctor: {select:{doctorName:true}, }, patient:{select:{patName:true,phone:true,address:true,id:true}},date:true },
     });
     res.json(getOppontement);
   } catch (error) {}
@@ -32,29 +32,28 @@ export const getOppontement_Of_Today = async (
   next: NextFunction
 ) => {
   try {
-    const today = new Date(); // Get the current date
-    const startOfDay = new Date(
+    const today = new Date() // Get the current date in YYYY-MM-DD format
+
+    const startDate =new Date(
+
       today.getFullYear(),
       today.getMonth(),
       today.getDate()
-    ); // Get the start of today
-    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000 - 1); // Get the end of today
+    )
+    const endDate = new Date(startDate.getTime() +24 * 60 * 60 * 1000-1);
 
     const getOppontement = await prisma.oppontement.findMany({
       where: {
         date: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: startDate,
+          lte: endDate,
         },
       },
       include: {
-        patient:true,
+        patient: { select: { patName: true } },
         doctor: { select: { doctorName: true } },
       },
     });
     res.json(getOppontement);
-  } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({ message: "Failed to retrieve appointments" }); // Send an error response
-  }
+  } catch (error) {}
 };

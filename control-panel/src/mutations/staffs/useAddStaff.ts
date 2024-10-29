@@ -1,5 +1,5 @@
 import { apifetch } from "@/api";
-import { Staff } from "@/components/types/types";
+import { Staff } from "@/app/types/types";
 export const useAddStaff=async(data:Staff)=>{
 
 try {

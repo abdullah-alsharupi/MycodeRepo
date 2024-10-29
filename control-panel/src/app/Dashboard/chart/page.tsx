@@ -50,15 +50,7 @@ export default function BigChartBox(){
 });
 
 
-  const daysOfWeek = [
-    "الأحد",
-    "الاثنين",
-    "الثلاثاء",
-    "الأربعاء",
-    "الخميس",
-    "الجمعة",
-    "السبت"
-  ]
+const daysOfWeek = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
 
   return (
     <div className="h-[100%] w-[100%] flex flex-col justify-between">
@@ -77,8 +69,7 @@ export default function BigChartBox(){
             }}
           >
             <XAxis
-              // Use the index of the data as the x-coordinate
-              tickFormatter={(index) => daysOfWeek[index]}
+              tickFormatter={(index) =>(daysOfWeek[index])}
               reversed
               tickLine={false}
               tick={true}

@@ -10,10 +10,11 @@ import {
   RefetchQueryFilters,
   useMutation,
 } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { message, Modal } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { hashPermision } from "@/app/permision/hashpermision";
 
 interface userProps {
   isOpen: boolean;
@@ -28,20 +29,20 @@ export default function AddUser({
   setIsOpen,
   refetch,
 }: userProps): React.JSX.Element {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      userName: "",
-      email: "",
-      password: "",
-      roleName: "",
-    },
-    resolver: zodResolver(userZodSchema),
-  });
+  const [isAdmin,setIsAdmin]=useState<boolean>(false);
+ const {control,handleSubmit,formState:{errors,isValid}}=useForm({  defaultValues: {
+  userName: "",
+  email: "",
+  password: "",
+  roleName: "",
+},resolver:zodResolver(userZodSchema)});
+const [isFormValid, setIsFormValid] =React.useState(false);
+useEffect(()=>{
+ const isAdmin=hashPermision('admin')
+ setIsAdmin(isAdmin)
+  setIsFormValid(isValid&&Object.keys(errors).length==0)
 
+},[isValid,errors]);
   const mutation = useMutation({
     mutationKey: ["new-user"],
     mutationFn: addUser,
@@ -51,6 +52,7 @@ export default function AddUser({
     },
     onSuccess: () => {
       setIsOpen(false);
+      control._reset()
       refetch();
       message.success("تم إضافة المستخدم بنجاح");
     },
@@ -63,9 +65,13 @@ export default function AddUser({
     roleName: control._getWatch("roleName"),
   };
   const onSubmit = (data: typeof user) => {
+    if(!isAdmin){
+      message.error("⚠️ ليس لديك صلاحيات لإضافة مستخدم جديد.");
+      return;
+    }
     mutation.mutate(data);
   };
-
+console.log(isAdmin)
   return (
     <div dir="rtl">
       <Modal open={isOpen} closeIcon={false} footer={null}>
@@ -173,10 +179,10 @@ export default function AddUser({
 
           <div className="col-span-2 flex justify-between items-center">
             <Button
-              type="submit"
               label={"إضافة"}
               onClick={handleSubmit(onSubmit)}
               className={`w-[70px]`}
+              disabled={!isFormValid}
             />
             <Button
               label={"إلغاء"}

@@ -9,13 +9,14 @@ import ToastContainer from "@/app/components/ui/toastCobtainer";
 import Tooltip from "@/app/components/ui/tooltip";
 import { useGetDoctor } from "@/queries/doctors/getAllDoctors";
 import React from "react";
+import { number } from "zod";
 
 export default function Doctor() {
   const { isLoading, error, data } = useGetDoctor();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
+ 
   return (
     <div className="text-black   w-[100%] ">
       <div className="rounded-xl  border-solid mb-[10px] sticky top-0 z-[1]  bg-[#1a1463]">
@@ -36,9 +37,9 @@ export default function Doctor() {
       <Label text="++++"/>
       <DropdownMenu  label="=" onSelect={()=>add} options={["add","delete"]}/>
         <StatusButton onClick={add} status="inactive" /> */}
-      {data?.map((data) => (
+      {data?.map((data: { doctorName: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; department: { depName: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }; },index:number) => (
         <div
-          key={data.id}
+          key={index}
           className="hover:shadow-2xl hover:shadow-current pr-[10px] pl-[10px] flex flex-row rounded-sm items-center justify-between  mb-[20px] w-[100%] hover:bg-gray-200 "
         >
          
@@ -52,7 +53,7 @@ export default function Doctor() {
             />
           </div>
 
-          <div key={data.department.id}>
+          <div >
             <h2>{data.doctorName}</h2>
             <h2 className="opacity-70 text-center">
               {data.department.depName}
@@ -60,9 +61,9 @@ export default function Doctor() {
           </div>
           <div className="opacity-70 text-center">
             <h1>الامراض</h1>
-            <h1 className="opacity-70 text-center font-sans">
-              {data.patient.length}
-            </h1>
+            <div className="opacity-70 text-center font-sans">
+              
+            </div>
           </div>
         </div>
       ))}

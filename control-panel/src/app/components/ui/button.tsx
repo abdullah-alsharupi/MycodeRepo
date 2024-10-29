@@ -1,5 +1,5 @@
 interface ButtonProps{
-    label:String;
+    label?:String;
     onClick?:()=>void;
     disabled?:boolean
     className?:String;

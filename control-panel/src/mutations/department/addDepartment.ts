@@ -1,14 +1,14 @@
 import { apifetch } from "@/api";
 import { Doctor } from "@/app/types/types";
 
-export const AddDoctor = async (data: Doctor) => {
+export const AddDepartment = async (data: any) => {
   try {
     // Validate data (consider using a validation library)
     // if (!isValidDoctorData(data)) { // Replace `isValidDoctorData` with your validation logic
     //   throw new Error("Invalid doctor data");
     // }
 
-    const response = await apifetch.post(`addDoctor`, data);
+    const response = await apifetch.post(`addDepartment`, data);
 
     if (response.status!==200) {
       throw new Error("Error adding doctor: " + response.statusText);

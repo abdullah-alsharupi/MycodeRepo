@@ -12,10 +12,11 @@ export const useGetDoctor =() => {
   });
 };
 
-const fetcDoctor = async (): Promise<Doctor[]> => {
+const fetcDoctor = async (): Promise<any> => {
   const response = await apifetch.get(`getDoctor`);
   if (!response.data) {
     throw new Error("Error");
   }
   return response.data
 };
+

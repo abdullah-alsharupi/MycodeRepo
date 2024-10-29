@@ -73,6 +73,26 @@ export const getUser = async (
     );
   }
 };
+export const getUserbyId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId=req.params.id;
+    const users = await prisma.users.findFirst({
+      where:{id:userId}
+     
+    });
+
+   
+    res.json(users);
+  } catch (err: any) {
+    next(
+      new Error("Error fetching users: " + err.message)
+    );
+  }
+};
 export const updateUser = async (
   req: Request,
   res: Response,
@@ -80,15 +100,15 @@ export const updateUser = async (
 ) => {
 
   try {
-    // userZodSchema.safeParse(req.body);
-    const { email, userName, password ,id,role} = req.body;
+    const { email, userName, password,roleName} = req.body;
+    const userId=req.params.id;
     let user = await prisma.users.update({
-      where: { id: id },
+      where: { id: userId },
       data: {
         email: email,
         userName: userName,
         password: hashSync(password, 10),
-        role:role
+        role:roleName
       
       },
     });
