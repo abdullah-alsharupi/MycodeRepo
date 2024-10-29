@@ -32,23 +32,29 @@ export const getOppontement_Of_Today = async (
   next: NextFunction
 ) => {
   try {
-    const currentDate = new Date().toISOString().slice(0, 10); // Get the current date in YYYY-MM-DD format
-
-    const endDate = new Date();
-    const startDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+    const today = new Date(); // Get the current date
+    const startOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    ); // Get the start of today
+    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000 - 1); // Get the end of today
 
     const getOppontement = await prisma.oppontement.findMany({
       where: {
         date: {
-          gte: startDate,
-          lte: endDate,
+          gte: startOfDay,
+          lte: endOfDay,
         },
       },
       include: {
-        patient: { select: { patName: true } },
+        patient:true,
         doctor: { select: { doctorName: true } },
       },
     });
     res.json(getOppontement);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Failed to retrieve appointments" }); // Send an error response
+  }
 };

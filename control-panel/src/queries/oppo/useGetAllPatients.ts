@@ -4,7 +4,7 @@ import { apifetch } from "@/api";
 
 export const useGetAllOpponInToday =() => {
   return useQuery({
-    queryKey: ["patient"],
+    queryKey: ["oppointment"],
     queryFn:async()=>{
       return await getAllOppon();
     }

@@ -20,3 +20,11 @@ import {Users} from "@prisma/client"
 //     user: User;
 //   }
   
+
+export interface  Session{
+    id: string;
+    expirationDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+}

@@ -1,5 +1,5 @@
 import { apifetch } from "@/api";
-import { User } from "@/components/types/types";
+import { User } from "@/app/types/types";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetUsers =() => {
@@ -12,7 +12,7 @@ export const useGetUsers =() => {
 };
 
 const GetUsers = async (): Promise<User[]> => {
-  const response = await apifetch.get(`auth/getUsers`);
+  const response = await apifetch.get(`/getUsers`);
   if (!response.data) {
     throw new Error("Error");
   }

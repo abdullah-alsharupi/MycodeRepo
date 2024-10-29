@@ -1,7 +1,6 @@
 import { apifetch } from "@/api";
-import { DoctorType } from "@/components/types/types";
+import { Doctor } from "@/app/types/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 
 export const useGetDoctor =() => {
@@ -13,7 +12,7 @@ export const useGetDoctor =() => {
   });
 };
 
-const fetcDoctor = async (): Promise<DoctorType[]> => {
+const fetcDoctor = async (): Promise<Doctor[]> => {
   const response = await apifetch.get(`getDoctor`);
   if (!response.data) {
     throw new Error("Error");

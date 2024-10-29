@@ -13,117 +13,138 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users{
-    id  String   @id @default(cuid())
-  userName String
-  email  String @unique
-  password String
+model Users {
+  id          String       @id @default(cuid())
+  userName    String
+  email       String       @unique
+  password    String
   sessions    Session[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  news News[]
-}
-model News{
-id String @id @default(cuid())
-headline String 
-title String
-img String
-user   Users  @relation(fields:[userId],references:[id],onDelete: Cascade, onUpdate: Cascade)
-userId String
-department Department @relation(fields:[depID],references:[id],onDelete: Cascade, onUpdate: Cascade)
-depID String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isDeleted   Boolean      @default(false)
+  news        News[]
+ 
+  permissions Permission[] @relation("UserPermissions") 
 
 
+  role String @default("USER")
 }
-model Session {
-  id    String   @id @default(cuid())
-  expirationDate DateTime
+
+model Permission {
+  id     String @id @default(cuid())
+  action String // e.g. create, read, update, delete
+  entity String // e.g. note, user, etc.
+  access String // e.g. own or any
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user   Users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roles     Role[]
+  users     Users[]  @relation("UserPermissions")
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   userId String
+  permissions Permission[]
 }
-model Department{
-  id    String   @id @default(cuid())
-  depName String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  staffs Staff[]
-  doctors Doctor[]
-  news News[]
-  }
-  model Staff{
-  id    String   @id @default(cuid())
-  staffName String
-  phone String?
-  department Department @relation(fields:[depID],references:[id],onDelete: Cascade, onUpdate: Cascade)
-  depID String 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  }
-model Doctor{
-  id    String   @id @default(cuid())
+
+model News {
+  id         String     @id @default(cuid())
+  headline   String
+  title      String
+  img        String
+  user       Users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     String
+  department Department @relation(fields: [depID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  depID      String
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  expirationDate DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           Users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId         String
+}
+
+model Department {
+  id        String   @id @default(cuid())
+  depName   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isDeleted Boolean  @default(false)
+  staffs    Staff[]
+  doctors   Doctor[]
+  news      News[]
+}
+
+model Staff {
+  id         String     @id @default(cuid())
+  staffName  String
+  phone      String?
+  department Department @relation(fields: [depID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  depID      String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  isDeleted  Boolean    @default(false)
+}
+
+model Doctor {
+  id         String     @id @default(cuid())
   doctorName String
-  phone String?
+  phone      String?
   specialist String
-  department Department @relation(fields:[depID],references:[id],onDelete: Cascade, onUpdate: Cascade)
-  depID String
+  department Department @relation(fields: [depID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  depID      String
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  patient Oppontement[]
- weekwork Shift[]
-
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  isDeleted Boolean       @default(false)
+  patient   Oppontement[]
+  weekwork  Shift[]
 }
 
-model Patient{
-  id    String   @id @default(cuid())
- patName String
-  address  String?
-  gender Gender?
+model Patient {
+  id         String        @id @default(cuid())
+  patName    String
+  address    String?
+  gender     Gender?
   doctorBack DateTime?
-  phone String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-  doctor Oppontement[]
+  phone      String
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  isDeleted  Boolean       @default(false)
+  doctor     Oppontement[]
 }
-enum Gender{
+
+enum Gender {
   female
   male
-
-}
-model Oppontement{
-  doctor Doctor @relation(fields:[docID],references:[id],onDelete: Cascade, onUpdate: Cascade)
-  docID String 
-  patient Patient @relation(fields:[patID],references:[id],onDelete: Cascade, onUpdate: Cascade)
-  patID String 
-  createdAt DateTime    @default(now())
-  date DateTime
-  updatedAt DateTime  @updatedAt
-  isDeleted Boolean   @default(false)
-   @@id([docID, patID])
 }
 
-model Shift{
-  id   String     @id @default(cuid())
-  day Day
-   startTime String
+model Oppontement {
+  doctor    Doctor   @relation(fields: [docID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  docID     String
+  patient   Patient  @relation(fields: [patID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  patID     String
+  createdAt DateTime @default(now())
+  date      DateTime
+  updatedAt DateTime @updatedAt
+  isDeleted Boolean  @default(false)
+
+  @@id([docID, patID])
+}
+
+model Shift {
+  id        String  @id @default(cuid())
+  day       String
+  startTime String
   endTime   String
-  doctor Doctor? @relation(fields:[docID],references:[id],onDelete:Cascade,onUpdate:Cascade)
-  docID String
-}
-
-enum Day {
-  SUNDAY
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
+  doctor    Doctor? @relation(fields: [docID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  docID     String
 }

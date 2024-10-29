@@ -72,6 +72,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      flex:{
+        "flex4":"4 4 0%"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

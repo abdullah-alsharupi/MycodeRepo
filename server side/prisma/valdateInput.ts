@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const userZodSchema = z.object({
   userName: z.string(),
   email: z.string().email(),
-  password: z.string().min(4),
-
+  password: z.string().min(4,"u must input at least 4"),
+  roleName:z.string()
 });
 
 export const newsZodSchema = z.object({

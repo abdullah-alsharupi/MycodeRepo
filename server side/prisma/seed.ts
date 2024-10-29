@@ -1,36 +1,30 @@
-// import { prisma } from "../src";
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function seed() {
+    const entities = ['user', 'note'];
+    const actions = ['create', 'read', 'update', 'delete'];
+    const accesses = ['own', 'any'] as const;
+    let permissions = [];
+
+    for (const entity of entities) {
+        for (const action of actions) {
+            for (const access of accesses) {
+                permissions.push({ entity, action, access });
+            }
+        }
+    }
+    try {
+        await prisma.permission.createMany({ data: permissions });
+        console.log('Permissions created successfully');
+    } catch (error) {
+        console.error('Error creating permissions:', error);
+    }
+}
 
 
-// export const dataDay=[{
 
-// }]
-// async function main() {
-//   const docID=  await prisma.doctor.findFirst({select:{id:true}})
-//   await prisma.doctor.create({
-//     data: {
-//       doctorName: "Dr. Smith",
-//       phone: "123-456-7890",
-//       specialist: "Cardiologist",
-//       depID: "department-id", // معرف القسم الذي ينتمي إليه الطبيب
-//       workHours: {
-//         create: [
-//           {
-//             startTime: new Date('2024-08-11T08:00:00Z'),
-//             endTime: new Date('2024-08-11T16:00:00Z'),
-//           },
-//           {
-//             startTime: new Date('2024-08-12T08:00:00Z'),
-//             endTime: new Date('2024-08-12T16:00:00Z'),
-//           }
-//         ]
-//       },
-//       weekdays: {
-//         create: [
-//           { name: "Monday" },
-//           { name: "Tuesday" }
-//         ]
-//       }
-//     }
-//   });
-  
-// }
+ seed().catch(err=>console.log(err)).finally(async()=>{
+    await prisma.$disconnect();
+ })

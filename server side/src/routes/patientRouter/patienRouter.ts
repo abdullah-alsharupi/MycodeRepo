@@ -3,6 +3,6 @@ import { addPatient ,updatePatient} from "../../controllers/patientController/pa
 const routerPatient:Router=Router();
 
 routerPatient.post('/addPatient',addPatient);
-routerPatient.post('/update_patient',updatePatient)
+routerPatient.put('/update_patient',updatePatient)
 
 export default routerPatient

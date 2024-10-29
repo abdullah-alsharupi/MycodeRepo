@@ -1,31 +1,41 @@
-import { Session } from '@prisma/client';
 import { prisma } from '.';
+import { Session } from '../type/express';
 
 
 
 // Create a new session
-// export async function createSession(userId: number): Promise<Session> {
-//   const session = await prisma.session.create({
-//     data: { 
-//       userId,
-//         expirationDate:new Date(Date.now() + 24 * 60 * 60 * 1000),
-//     }
-//   });
-//   return session;
-// }
-// export async function createSession(userId: number): Promise<Session> {
-//   const expirationDate = new Date();
-//   expirationDate.setHours(expirationDate.getHours() + 24); // 24 hours from now
 
-//   const session = await prisma.session.create({
-//     data: {
-//       userId: userId,
-//       expirationDate: expirationDate,
-//     },
-//   });
+export async function createSession(userId: string): Promise<Session> {
+  const expirationDate = new Date();
+  expirationDate.setHours(expirationDate.getHours() + 24); // 24 hours from now
 
-//   return session;
-// }
+  const session = await prisma.session.create({
+    data: {
+      userId: userId,
+      expirationDate: expirationDate,
+    },
+  });
+
+  return session;
+}
+
+export async function verifySession(sessionId: string): Promise<boolean> {
+  try {
+    const session = await prisma.session.findFirst({
+      where: {
+       id:sessionId,
+        expirationDate: {
+          gte: new Date(),
+        },
+      },
+    });
+
+    return session !== null;
+  } catch (error) {
+    console.error('Error verifying session:', error);
+    return false;
+  }
+}
 
 // export async function validateSession(userId: number, sessionId: string): Promise<boolean> {
 //   const session = await prisma.session.findUnique({

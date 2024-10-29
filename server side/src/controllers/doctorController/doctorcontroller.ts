@@ -45,6 +45,7 @@ export const getDoctors = async (req: Request, res: Response, next: NextFunction
         include: {
           weekwork: true,
           department: true,
+          patient:true
         },
       });
       res.json(doctors);
